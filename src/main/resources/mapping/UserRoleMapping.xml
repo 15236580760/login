@@ -1,0 +1,29 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rb.login.mapper.UserRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.rb.login.model.entity.UserRole">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+    </resultMap>
+
+    <insert id="save" parameterType="com.rb.login.model.entity.UserRole">
+        INSERT INTO `sys_user_role`(`user_id`,`role_id`)
+        VALUES
+        <foreach collection="roleIds" item="roleId" separator="," index="index">
+            (#{userId},#{roleId})
+        </foreach>
+
+    </insert>
+
+    <!-- 根据角色ID查询该角色对应的所有资源 -->
+    <select id="findRoleIdsByUserId" resultType="java.lang.Integer">
+        select role_id from sys_user_role where user_id = #{userId}
+    </select>
+
+    <!-- 根据角色id删除该角色对应的资源授权 -->
+    <delete id="deleteByUserId" parameterType="java.lang.Integer" >
+        delete from sys_user_role where user_id = #{userId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,53 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rb.login.mapper.LoginMapper">
+
+    <resultMap id="BaseResultMap" type="com.rb.login.model.entity.LoginRecord">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_name" jdbcType="INTEGER" property="userName" />
+        <result column="count" jdbcType="INTEGER" property="count" />
+    </resultMap>
+
+    <insert id="saveLogin">
+            INSERT INTO `sys_login`(`user_name`,`token_id`)
+            VALUE (#{userName},#{tokenId});
+    </insert>
+
+    <!-- 根据id查询用户信息 -->
+    <select id="findUserNameByTokenId" resultType="String">
+        select user_name from sys_login where token_id = #{tokenId}
+    </select>
+
+    <!-- 根据id查询用户信息 -->
+    <select id="countLogin" resultType="java.lang.Integer">
+        select count(*) from sys_login where token_id = #{tokenId} and user_name=#{userName}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="findAll" resultType="com.rb.login.model.entity.LoginRecord">
+        select * from sys_login_count
+    </select>
+
+    <!--查询记录数-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from sys_login
+    </select>
+
+    <!-- 根据用户名称查询用户信息 -->
+    <select id="countLoginByUserName" resultType="java.lang.Integer">
+        select `count` from sys_login_count where `user_name` = #{userName}
+    </select>
+
+    <insert id="firstLogin" >
+        INSERT INTO `sys_login_count`(`user_name`,`count`)
+            VALUE (#{userName},1);
+    </insert>
+
+    <update id="addLogin"  >
+            UPDATE
+            `sys_login_count`
+            SET
+            `count`=`count`+1
+            WHERE user_name=#{userName}
+    </update>
+
+</mapper>

@@ -1,0 +1,51 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rb.login.mapper.ResourceMapper">
+
+    <resultMap id="BaseResultMap" type="com.rb.login.model.entity.Resource">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="method" jdbcType="VARCHAR" property="method" />
+    </resultMap>
+
+    <insert id="save" parameterType="com.rb.login.model.entity.Resource" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+            INSERT INTO `sys_resource`(`name`,`url`,`method`)
+            VALUE (#{resource.name},#{resource.url},#{resource.method});
+    </insert>
+
+    <update id="update" parameterType="com.rb.login.model.entity.Resource" >
+            UPDATE
+            `sys_resource`
+            SET
+            `name`=#{resource.name},
+            `url`=#{resource.url},
+            `method`=#{resource.method}
+            WHERE id=#{resource.id}
+    </update>
+
+    <!-- 根据id查询用户信息 -->
+    <select id="findById" resultType="com.rb.login.model.entity.Resource">
+        select * from sys_resource where id = #{id}
+    </select>
+
+    <!-- 根据用户名称查询用户信息 -->
+    <select id="countByUrlAndMethod" resultType="java.lang.Integer">
+        select count(*) from sys_resource where `url` = #{url} and `method`=#{method}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="findAll" resultType="com.rb.login.model.entity.Resource">
+        select * from sys_resource
+    </select>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="java.lang.Integer" >
+        delete from sys_resource where id = #{id}
+    </delete>
+
+    <!--查询记录数-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from sys_resource
+    </select>
+
+</mapper>

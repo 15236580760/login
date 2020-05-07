@@ -1,0 +1,52 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rb.login.mapper.RoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.rb.login.model.entity.Role">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+    </resultMap>
+
+    <insert id="save" parameterType="com.rb.login.model.entity.Role" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+            INSERT INTO `sys_role`(`name`)
+            VALUE (#{role.name});
+    </insert>
+
+    <update id="update" parameterType="com.rb.login.model.entity.Role" >
+            UPDATE
+            `sys_role`
+            SET
+            `name`=#{role.name}
+            WHERE id=#{role.id}
+    </update>
+
+    <!-- 根据id查询用户信息 -->
+    <select id="findById" resultType="com.rb.login.model.entity.Role">
+        select * from sys_role where id = #{id}
+    </select>
+
+    <!-- 根据用户名称查询用户信息 -->
+    <select id="findByRoleName" resultType="com.rb.login.model.entity.Role">
+        select * from sys_role where name = #{name}
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="findAll" resultType="com.rb.login.model.entity.Role">
+        select * from sys_role
+    </select>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="java.lang.Integer" >
+        delete from sys_role where id = #{id}
+    </delete>
+
+    <!--查询记录数-->
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from sys_role
+    </select>
+
+    <!--根据用户名称查询条数-->
+    <select id="countByRoleName" resultType="java.lang.Integer">
+        select count(*) from sys_role where `name` = #{name}
+    </select>
+
+</mapper>
